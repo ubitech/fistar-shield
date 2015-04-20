@@ -1,2 +1,2 @@
 # FistarSHIELD
-FI-STAR SHIELD Specific Enabler
+SHIELD, a Specific Enabler that addresses pseudo-anonymization issues using Future Internet technologies
