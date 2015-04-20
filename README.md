@@ -4,12 +4,12 @@ You can checkout the project or clone it.
 
 For SVN-Users
 -------------
-svn co https://github.com/UBITECH/FistarSHIELD.git 
-cd parent 
+svn co https://github.com/UBITECH/FistarSHIELD.git | 
+cd parent | 
 mvn clean install
 
 For Git-Users
 -------------
-git clone https://github.com/UBITECH/FistarSHIELD.git 
-cd parent 
+git clone https://github.com/UBITECH/FistarSHIELD.git | 
+cd parent | 
 mvn clean install
