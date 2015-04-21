@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+    <context-root>/SHIELD</context-root>
+    <resource-ref>
+        <res-ref-name>jdbc/SHIELDDB</res-ref-name>
+        <jndi-name>java:jboss/datasources/SHIELDDB</jndi-name>
+    </resource-ref>
+    <security-domain>java:/jaas/SHIELDAppRealm</security-domain>
+</jboss-web>
