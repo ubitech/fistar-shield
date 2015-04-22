@@ -40,9 +40,7 @@
             <groupId>eu.ubitech.fistar</groupId>
             <artifactId>EJBCARestClient</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        
-        
+        </dependency>       
         
     </dependencies>
 

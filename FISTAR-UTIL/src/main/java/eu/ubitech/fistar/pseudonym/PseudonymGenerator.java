@@ -1,4 +1,4 @@
-package eu.ubitech.fistar.pseudonymizer;
+package eu.ubitech.fistar.pseudonym;
 
 import java.util.Random;
 import java.util.logging.Logger;
@@ -66,17 +66,12 @@ public final class PseudonymGenerator {
 
     public Pseudonym getRandomPseudonym() {
         Pseudonym pseudonym;
-        String firstName = "";
-        String lastName = "";
-        String email = "";
-        pseudonym = new Pseudonym(getRandomFirstName(), getRandomLastName(), getRandomEmail(), null, null);
+        //TODO: fill with actual values
+        /*String firstName = "";
+         String lastName = "";
+         String email = "";*/
+        pseudonym = new Pseudonym(getRandomFirstName(), getRandomLastName(), getRandomEmail(), "");
         return pseudonym;
     }
-
-    public static void main(String[] args) {
-        for (int i = 1; i < 100; i++) {
-            System.out.println(PseudonymGenerator.getInstance().getRandomEmail());
-        }
-    }
-
+    
 }

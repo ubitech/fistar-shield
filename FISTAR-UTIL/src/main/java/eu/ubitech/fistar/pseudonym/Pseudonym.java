@@ -1,4 +1,4 @@
-package eu.ubitech.fistar.pseudonymizer;
+package eu.ubitech.fistar.pseudonym;
 
 /**
  *
@@ -6,17 +6,23 @@ package eu.ubitech.fistar.pseudonymizer;
  */
 public class Pseudonym {
 
+    String username;
     final String firstName;
     final String lastName;
     final String email;
     final String gender;
-    final String pseudonymKey;
+    String pseudonymKey;
 
-    public Pseudonym(String firstName, String lastName, String email, String gender, String pseudonymKey) {
+    public Pseudonym(String firstName, String lastName, String email, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
+    }
+
+    public Pseudonym(String username, String firstName, String lastName, String email, String gender, String pseudonymKey) {
+        this(firstName, lastName, email, gender);
+        this.username = username;
         this.pseudonymKey = pseudonymKey;
     }
 
@@ -39,7 +45,17 @@ public class Pseudonym {
     public String getPseudonymKey() {
         return pseudonymKey;
     }
-    
-    
+
+    public String setPseudonymKey(String key) {
+        return this.pseudonymKey = key;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String setUsername(String key) {
+        return this.username = key;
+    }
 
 }

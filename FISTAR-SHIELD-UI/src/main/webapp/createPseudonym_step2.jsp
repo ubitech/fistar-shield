@@ -73,19 +73,19 @@
 
                     <div class="container">
                         <div class="row">
-                            <form role="form" method="post">
+                            <form role="form" name="step2Form"  id="step2Form" action="createPseudonym" method="post">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="InputName">First Name</label>
                                         <div class="input-group">
-                                            <input disabled="true" type="text" value="${pseudonym.firstName}" class="form-control" name="InputName" id="InputName" required>
+                                            <input disabled type="text" value="${pseudonym.firstName}" class="form-control"  id="firstNameO" required>
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-check"></span></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="InputName">Last Name</label>
                                         <div class="input-group">
-                                            <input  disabled="true" type="text" value="${pseudonym.lastName}" class="form-control" name="InputName" id="InputName"  required>
+                                            <input  disabled type="text" value="${pseudonym.lastName}" class="form-control"  id="lastNameO"  required>
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-check"></span></span>
                                         </div>
                                     </div>
@@ -93,26 +93,20 @@
                                     <div class="form-group">
                                         <label for="InputEmail">Email</label>
                                         <div class="input-group">
-                                            <input  disabled="true" type="email" value="${pseudonym.email}" class="form-control" id="InputEmailFirst" name="InputEmail"  required>
+                                            <input  disabled type="email" value="${pseudonym.email}" class="form-control" id="emailO"  required>
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-check"></span></span>
                                         </div>
                                     </div>
-                                    <input type="submit" name="submit" id="submit" value="Next" class="btn btn-info pull-right">
+                                    <input type="submit" onClick="$('#nextStep').val('step3');"  value="Next" class="btn btn-info pull-right">
+                                    <button  class="btn btn-info pull-right" style="margin:0 5px;"><span class="glyphicon glyphicon-refresh"></span> Regenerate</button>
                                 </div>
 
-
+                                <!-- hidden fields to be sent on submit -->
+                                <input type="hidden" name="firstName" id="firstName" required>
+                                <input type="hidden" name="lastName" id="lastName"  required>          
+                                <input type="hidden" name="email" id="email"  required>            
                                 <input type="hidden" name="nextStep" id="nextStep" value="step2" required>
                             </form>
-                            <!--                            <div class="col-lg-5 col-md-push-1">
-                                                            <div class="col-md-12">
-                                                                <div class="alert alert-success">
-                                                                    <strong><span class="glyphicon glyphicon-ok"></span> Success! Message sent.</strong>
-                                                                </div>
-                                                                <div class="alert alert-danger">
-                                                                    <span class="glyphicon glyphicon-remove"></span><strong> Error! Please check all page inputs.</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>-->
                         </div>
                     </div>
                 </div>
@@ -129,10 +123,12 @@
 <script type="text/javascript" src="resources/js/moment.js"></script>
 <script type="text/javascript" src="resources/js/cmui.min.js"></script>
 <script>
-    //Do some stuff...
-    $(document).ready(function () {
-
-    });
+//Do some stuff...
+$(document).ready(function () {
+    $("#firstName").val($("#firstNameO").val());
+    $("#lastName").val($("#lastNameO").val());
+    $("#email").val($("#emailO").val());
+});
 </script>
 
 </body>

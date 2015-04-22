@@ -11,7 +11,7 @@
             <a href="createPseudonym">Create Pseudonym<span class="menu-icon fa fa-tasks"></span></a>
         </li>
         <li class="sidebar-list">
-            <a href="fetchCertificate">Fetch Certificate<span class="menu-icon fa fa-file"></span></a>
+            <a href="fetchCertificate.jsp">Fetch Certificate<span class="menu-icon fa fa-file"></span></a>
         </li>
         <!--<li class="sidebar-title separator"><span>QUICK LINKS</span></li>-->
     </ul>

@@ -1,9 +1,10 @@
 package eu.ubitech.fistar.shield.servlet;
 
-import eu.ubitech.fistar.pseudonym.Pseudonym;
-import eu.ubitech.fistar.pseudonym.PseudonymGenerator;
 import eu.ubitech.fistar.certificate.CertificateRequestor;
+import eu.ubitech.fistar.certificate.FISTARCertificate;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,53 +12,37 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author smantzouratos
+ * @author ermis
  */
-public class createPseudonym extends HttpServlet {
+public class fetchCertificate extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-
         String username = request.getUserPrincipal().getName();
-        request.setAttribute("username", username);
 
-        //Get next step
-        String nextStep = (null == request.getParameter("nextStep") ? "step1" : request.getParameter("nextStep"));
-
-        System.out.println("Next step is: " + nextStep);
-
-        switch (nextStep) {
-
-            case ("step1"): {
-                //TODO:
-                //Get form params
-                request.getRequestDispatcher("createPseudonym_step1.jsp").forward(request, response);
-                break;
+        FISTARCertificate fistarCertificate = CertificateRequestor.getInstance().generateCertificate(username, request.getParameter("pseudonymCode"));
+        if (fistarCertificate.isCertificateValid()) {
+            response.setContentType("application/x-pkcs12");
+            response.setHeader("Content-disposition", "attachment; filename=" + fistarCertificate.getCertificateFileName());
+            InputStream in = fistarCertificate.getCertificate();
+            OutputStream out = response.getOutputStream();
+            byte[] buffer = new byte[4096];
+            int n;
+            while ((n = in.read(buffer)) > 0) {
+                out.write(buffer, 0, n);
             }
-
-            //Create pseudonym
-            case ("step2"): {
-                Pseudonym pseudonym = PseudonymGenerator.getInstance().getRandomPseudonym();
-                request.setAttribute("pseudonym", pseudonym);
-                request.getRequestDispatcher("createPseudonym_step2.jsp").forward(request, response);
-                break;
-            }
-
-            //Create certificate request
-            case ("step3"): {
-                //Create Pseudonym Object
-                Pseudonym pseudonym = new Pseudonym(request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("email"), "");
-                pseudonym.setUsername(username);
-                //Create certificate request
-                String pseudonymKey = CertificateRequestor.getInstance().createCertificateRequest(pseudonym);
-                request.setAttribute("pseudonymKey", pseudonymKey);
-                request.getRequestDispatcher("createPseudonym_step3.jsp").forward(request, response);
-                break;
-            }
-
+            in.close();
+            out.close();
         }
 
     }

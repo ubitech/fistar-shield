@@ -50,14 +50,14 @@
                                     <div class="bs-wizard-info text-center">Complete form with real data</div>
                                 </div>
 
-                                <div class="col-xs-4 bs-wizard-step disabled"><!-- complete -->
+                                <div class="col-xs-4 bs-wizard-step complete"><!-- complete -->
                                     <div class="text-center bs-wizard-stepnum">Step 2</div>
                                     <div class="progress"><div class="progress-bar"></div></div>
                                     <a href="#" class="bs-wizard-dot"></a>
                                     <div class="bs-wizard-info text-center">Validate generated pseudonym</div>
                                 </div>
 
-                                <div class="col-xs-4 bs-wizard-step disabled"><!-- complete -->
+                                <div class="col-xs-4 bs-wizard-step complete"><!-- complete -->
                                     <div class="text-center bs-wizard-stepnum">Step 3</div>
                                     <div class="progress"><div class="progress-bar"></div></div>
                                     <a href="#" class="bs-wizard-dot"></a>
@@ -73,48 +73,27 @@
 
                     <div class="container">
                         <div class="row">
-                            <form role="form" method="post">
-                                <div class="col-lg-6">
-                                    <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong></div>
-                                    <div class="form-group">
-                                        <label for="InputName">Enter First Name</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Enter Name" required>
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="InputName">Enter Last Name</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Enter Name" required>
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                                        </div>
-                                    </div>
+                            <div class="row bs-wizard">
+                                <div class="col-md-12">
+                                    <center>
+                                    <%
+                                        if (null !=  request.getAttribute("pseudonymKey")) {
+                                            out.println("<div class=\"alert alert-success\"><strong><span class=\"glyphicon glyphicon-ok\"></span> Certificate request successfully submitted! Please use this pseudonym code to fetch the certificate: <i>" + (String) request.getAttribute("pseudonymKey") + "</i></strong></div>");
+                                        } else {
+                                            out.println("<div class=\"alert alert-danger\"><span class=\"glyphicon glyphicon-remove\"></span><strong> Error! Please check all page inputs.</strong></div>");
+                                        }
 
-                                    <div class="form-group">
-                                        <label for="SelectGender">Select Gender</label>
-                                        <div class="input-group">
-                                            <select class="form-control">
-                                                <option value="m">Male</option>
-                                                <option value="f">Female</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="InputEmail">Enter Email</label>
-                                        <div class="input-group">
-                                            <input type="email" class="form-control" id="InputEmailFirst" name="InputEmail" placeholder="Enter Email" required>
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                                        </div>
-                                    </div>
-                                    <input type="submit" name="submit" id="submit" value="Next" class="btn btn-info pull-right">
+                                    %>
+                                    </center>
                                 </div>
-                                
-                                
-                                <input type="hidden" name="nextStep" id="nextStep" value="step2" required>
-                            </form>
+                            </div>
                         </div>
                     </div>
+
+
+
+
+
                 </div>
             </div>
             <!-- End Main Content -->
@@ -129,9 +108,11 @@
 <script type="text/javascript" src="resources/js/moment.js"></script>
 <script type="text/javascript" src="resources/js/cmui.min.js"></script>
 <script>
-    //Do some stuff...
+//Do some stuff...
     $(document).ready(function () {
-
+        $("#firstName").val($("#firstNameO").val());
+        $("#lastName").val($("#lastNameO").val());
+        $("#email").val($("#emailO").val());
     });
 </script>
 
