@@ -1,6 +1,7 @@
 package eu.ubitech.fistar.shield.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author smantzouratos
  */
-public class login extends HttpServlet {
+public class deassignIDMRole extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -18,7 +19,13 @@ public class login extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        String userID = request.getParameter("uID");
+        String idmRole = request.getParameter("role");
+        
+        System.out.println("UserID: " + userID + ", Role: " + idmRole);
+        
+        response.sendRedirect("users");
+                
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

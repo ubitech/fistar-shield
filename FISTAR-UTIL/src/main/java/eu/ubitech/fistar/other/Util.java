@@ -1,12 +1,22 @@
 package eu.ubitech.fistar.other;
 
+import eu.ubitech.fistar.database.DSHandler;
+import eu.ubitech.fistar.entities.IDMRole;
+import eu.ubitech.fistar.entities.User;
+import eu.ubitech.fistar.idm.IDMHandler;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.fluttercode.datafactory.ContentDataValues;
-import org.fluttercode.datafactory.impl.DataFactory;
+import java.util.List;
+import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -75,15 +85,227 @@ public class Util {
     } // EoM generateRandomPassword
 
     //http://www.andygibson.net/blog/article/generate-test-data-with-datafactory/#more-1751
-    
-    public static void main(String[] args){
-//        DataFactory df = new DataFactory();
-//        	for (int i = 0; i < 1000000; i++) {
-//			String name = df.getEmailAddress();
-//			//System.out.println(name);
-//		}
-        
-        System.out.println(createAlgorithm("!test!","SHA"));
-        
+    public static void main(String[] args) {
+
+        List<IDMRole> roles = getUserIDMRoles("DN=tes1");
+
+        System.out.println("Role: " + roles.get(0).getRole());//" " + roles.get(1).getRole());
+
     }
+
+    /**
+     *
+     * Returns the user role of a specific username
+     *
+     * @param username
+     *
+     * @return A String object
+     *
+     */
+    public static String getUserRole(String username) {
+        String userRole = null;
+        Connection ds = DSHandler.INSTANCE.getDatasource();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            stm = ds.prepareStatement("SELECT rolename FROM UserRole WHERE username = ?");
+            stm.setString(1, username);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                userRole = rs.getString("rolename");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DSHandler.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return null;
+        } finally {
+            DSHandler.INSTANCE.closeDBStreams(ds, stm, rs);
+        }
+        return userRole;
+
+    }
+
+    /**
+     *
+     * Returns all the users
+     *
+     * @return A List of User object
+     *
+     */
+    public static List<User> getUsers() {
+        List<User> users = new ArrayList<>();;
+        User user = null;
+        Connection ds = DSHandler.INSTANCE.getDatasource();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            stm = ds.prepareStatement("SELECT a.id, a.username, b.firstName, b.lastName FROM User a, Pseudonym b, UserRole c WHERE a.username = b.username AND c.uid = a.id AND c.rolename = 'user';");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                user = new User();
+                user.setUserID(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setFirstName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
+                user.setDN("CN=" + user.getFirstName() + " " + user.getLastName());
+                List<IDMRole> idmRoles = getUserIDMRoles(user.getDN());
+                user.setIDMUserRoles(idmRoles);
+
+                String tempRoles = "";
+                if (null != idmRoles && idmRoles.size() > 0) {
+                    for (IDMRole tempRole : idmRoles) {
+                        tempRoles += "<a href='deassignIDMRole?uID=" + user.getUserID() + "&role=" + tempRole.getRole() + "'>" + tempRole.getRole() + "</a>, ";
+                    }
+
+                    user.setIdmRoles(tempRoles.substring(0, tempRoles.length() - 2));
+                } else {
+                    user.setIdmRoles(" - ");
+                }
+
+                users.add(user);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DSHandler.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return null;
+        } finally {
+            DSHandler.INSTANCE.closeDBStreams(ds, stm, rs);
+
+        }
+
+        return users;
+
+    }
+
+    /**
+     *
+     * Returns the user info of a specific username
+     *
+     * @param userID
+     *
+     * @return A User object
+     *
+     */
+    public static User getUserByID(int userID) {
+        User user = null;
+        Connection ds = DSHandler.INSTANCE.getDatasource();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            stm = ds.prepareStatement("SELECT a.id, a.username, b.firstName, b.lastName FROM User a, Pseudonym b WHERE a.username = b.username AND a.id = ?;");
+            stm.setInt(1, userID);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                user = new User();
+                user.setUserID(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setFirstName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
+                user.setDN("CN=" + user.getFirstName() + " " + user.getLastName());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DSHandler.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return null;
+        } finally {
+            DSHandler.INSTANCE.closeDBStreams(ds, stm, rs);
+        }
+        return user;
+
+    }
+
+    /**
+     *
+     * Returns the IDM Roles from OpenIDM
+     *
+     *
+     * @return A List of IDMRole object
+     *
+     */
+    public static List<IDMRole> getIDMRoles() {
+        List<IDMRole> roles = new ArrayList<>();
+        IDMRole role = null;
+
+        IDMHandler idm = new IDMHandler();
+        JSONObject json = idm.getAllManagedRoles();
+        JSONArray rolesArray = json.getJSONArray("result");
+
+        for (int i = 0; i < rolesArray.length(); i++) {
+            role = new IDMRole();
+            JSONObject roleObj = rolesArray.getJSONObject(i);
+            role.setRole(roleObj.getString("_id"));
+            roles.add(role);
+        }
+
+        return roles;
+
+    }
+
+    /**
+     *
+     * Returns the IDM Roles from OpenIDM
+     *
+     * @param userDN
+     *
+     * @return A List of IDMRole object
+     *
+     */
+    public static List<IDMRole> getUserIDMRoles(String userDN) {
+        List<IDMRole> roles = new ArrayList<>();
+        IDMRole role = null;
+
+        IDMHandler idm = new IDMHandler();
+        JSONObject jsonObj = idm.getManagedUser(userDN);
+
+        JSONArray rolesArray = jsonObj.getJSONArray("roles");
+
+        for (int i = 0; i < rolesArray.length(); i++) {
+            role = new IDMRole();
+            role.setRole(rolesArray.get(i).toString());
+            roles.add(role);
+        }
+
+        return roles;
+
+    }
+
+    /**
+     *
+     * Deassigns an IDM Role of OpenIDM to User
+     *
+     * @param idmRole
+     *
+     * @param userDN
+     *
+     * @return A List of IDMRole object
+     *
+     */
+    public static boolean deassignIDMRoleToUser(String idmRole, String userDN) {
+        boolean idmRoleAssigned = false;
+
+        IDMHandler idm = new IDMHandler();
+        idmRoleAssigned = idm.unAssignRoleToUser(idmRole, userDN);
+
+        return idmRoleAssigned;
+
+    }
+
+    /**
+     *
+     * Assigns an IDM Role of OpenIDM to User
+     *
+     * @param idmRole
+     *
+     * @param userDN
+     *
+     * @return A List of IDMRole object
+     *
+     */
+    public static boolean assignIDMRoleToUser(String idmRole, String userDN) {
+        boolean idmRoleAssigned = false;
+
+        IDMHandler idm = new IDMHandler();
+        idmRoleAssigned = idm.assignRoleToUser(idmRole, userDN);
+
+        return idmRoleAssigned;
+
+    }
+
 }

@@ -14,8 +14,7 @@
         <link rel="shortcut icon" href="resources/img/shield.png">
         <link rel="stylesheet" href="resources/css/bootstrap.min.css">
         <link href="resources/css/jquery-ui.min.css" rel="stylesheet">
-        <link href="resources/css/jquery.dataTables.css" rel="stylesheet">
-        <link href="resources/css/cmui.min.css" rel="stylesheet">
+        <link href="resources/css/shield.min.css" rel="stylesheet">
         <link href="resources/css/steps.css" rel="stylesheet">
 
     </head>
@@ -88,9 +87,8 @@
         <script type="text/javascript" src="resources/js/bootstrap_new.js"></script>
         <script type="text/javascript" src="resources/js/jquery-ui.min.js"</script>
         <script type="text/javascript" src="resources/js/moment.js"></script>
-        <script type="text/javascript" src="resources/js/cmui.min.js"></script>
+        <script type="text/javascript" src="resources/js/shield.min.js"></script>
         <script>
-            //Do some stuff...
             $(document).ready(function () {
                 $("#firstName").val($("#firstNameO").val());
                 $("#lastName").val($("#lastNameO").val());

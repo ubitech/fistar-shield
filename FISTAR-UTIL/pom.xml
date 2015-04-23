@@ -48,6 +48,12 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>eu.ubitech.fistar</groupId>
+            <artifactId>FISTAR-IDM</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
 
     </dependencies>
     

@@ -9,8 +9,20 @@
         <servlet-class>eu.ubitech.fistar.shield.servlet.login</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>users</servlet-name>
+        <servlet-class>eu.ubitech.fistar.shield.servlet.users</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>fetchCertificate</servlet-name>
         <servlet-class>eu.ubitech.fistar.shield.servlet.fetchCertificate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>assignIDMRole</servlet-name>
+        <servlet-class>eu.ubitech.fistar.shield.servlet.assignIDMRole</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deassignIDMRole</servlet-name>
+        <servlet-class>eu.ubitech.fistar.shield.servlet.deassignIDMRole</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>createPseudonym</servlet-name>
@@ -21,8 +33,20 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>users</servlet-name>
+        <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>fetchCertificate</servlet-name>
         <url-pattern>/fetchCertificate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>assignIDMRole</servlet-name>
+        <url-pattern>/assignIDMRole</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deassignIDMRole</servlet-name>
+        <url-pattern>/deassignIDMRole</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -42,6 +66,7 @@
         <auth-constraint>
             <description>For all Registered Users Only</description>
             <role-name>user</role-name>
+            <role-name>admin</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>

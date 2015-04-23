@@ -7,26 +7,36 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="<%= TranslationRetriever.INSTANCE.getFieldValueTranslation(username, ui, "page_not_found_title")%> | ${client.clientName}">
+        <meta name="description" content="Page not found">
         <meta name="author" content="UBITECH">
-        <title><%= TranslationRetriever.INSTANCE.getFieldValueTranslation(username, ui, "page_not_found_title")%> | ${client.clientName}</title>
-        <link rel="shortcut icon" href="../UBISES-RESOURCES/resources/img/${client.clientLogo}">
-        <link href="../UBISES-RESOURCES/resources/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../UBISES-RESOURCES/resources/css/dashboard.css" rel="stylesheet">
+        <title>SHIELD | Page not found</title>
+        <link rel="shortcut icon" href="resources/img/shield.png">
+        <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+        <link rel="stylesheet" href="resources/css/shield.css">
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12 main">
-                    <h1 class="sub-header"><center><img src="../UBISES-RESOURCES/resources/img/${client.clientLogoLogin}" height="300px;"/></center></h1>
-                    <div id="notificationMSG" class="alert alert-danger">
-                        <div class="text-center"><%= TranslationRetriever.INSTANCE.getFieldValueTranslation(username, ui, "page_not_found_msg")%></div>
-                    </div>
+
+        <div class="container">
+
+            <div class="form-signin" >
+                <h2 class="form-signin-heading"><center><img src="resources/img/shield.png" /></center></h2>
+                <br /><br />
+                <div class="error"><center>Oops! Page not found!</center></div>
+                <br /><br />
+            </div>
+
+
+        </div> <!-- /container -->
+
+        <br /><br />
+        <div class="footer">		 
+            <div class="footer-inner">
+                <div class="poweredBy">
+                    <center>
+                        &copy; 2015 - <a href="https://www.fi-star.eu/fi-star.html" target="_blank">FISTAR</a>
+                    </center>
                 </div>
             </div>
-        </div>
-        <script src="../UBISES-RESOURCES/resources/js/jquery-2.1.1.min.js"></script>
-        <script src="../UBISES-RESOURCES/resources/js/bootstrap.min.js"></script>
-        <script src="../UBISES-RESOURCES/resources/js/docs.min.js"></script>
+        </div>                
     </body>
 </html>

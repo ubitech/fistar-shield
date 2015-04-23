@@ -6,7 +6,7 @@
         <div class="user pull-right">
             <div class="item dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="resources/img/UBISES_ICON_PREFERENCES.png">
+                    <img src="resources/img/ICON_PREFERENCES.png">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li class="dropdown-header">
@@ -15,7 +15,7 @@
                     <li class="divider"></li>
                     <li class="link">
                         <a href="logout.jsp">
-                            logout
+                            Logout
                         </a>
                     </li>
                 </ul>
