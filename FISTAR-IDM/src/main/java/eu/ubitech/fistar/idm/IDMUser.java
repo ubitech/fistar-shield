@@ -6,7 +6,7 @@ import java.io.Serializable;
  *
  * @author ermis
  */
-public class User implements Serializable {
+public class IDMUser implements Serializable {
 
     private String _id;
     private String userName;
@@ -81,9 +81,17 @@ public class User implements Serializable {
         this.description = description;
     }
 
-    
 
-    public User() {
+    public IDMUser() {
+    }
+
+    public IDMUser(String _id, String userName, String password, String sn, String givenName, String mail) {
+        this._id = _id;
+        this.userName = userName;
+        this.sn = sn;
+        this.password = password;
+        this.givenName = givenName;
+        this.mail = mail;
     }
 
     
