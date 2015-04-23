@@ -11,5 +11,7 @@
   <modules>
     <module>FISTAR-UTIL</module>
     <module>FISTAR-SHIELD-UI</module>
+    <module>FISTAR-TEMPLATE-APP</module>
+    <module>FISTAR-IDM</module>
   </modules>
 </project>

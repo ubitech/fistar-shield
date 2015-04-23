@@ -4,7 +4,7 @@ import eu.ubitech.fistar.ejbcarestclient.services.RESTClientProvider;
 import eu.ubitech.fistar.ejbcarestclient.services.RESTClientService;
 import eu.ubitech.fistar.other.Util;
 import eu.ubitech.fistar.pseudonym.Pseudonym;
-import eu.ubitech.fistar.pseudonymizer.database.DSHandler;
+import eu.ubitech.fistar.database.DSHandler;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
