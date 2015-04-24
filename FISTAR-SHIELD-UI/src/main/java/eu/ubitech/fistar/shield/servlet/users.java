@@ -28,18 +28,24 @@ public class users extends HttpServlet {
 
         String userRole = Util.getUserRole(username);
         request.setAttribute("userRole", userRole);
-        
+
         if (userRole.equalsIgnoreCase("user")) {
 
             response.sendRedirect("createPseudonym");
-            
+
         } else if (userRole.equalsIgnoreCase("admin")) {
-            
-             List<User> listOfUsers = Util.getUsers();
-            
+
+            List<User> listOfUsers = Util.getUsers();
+
+            // Retrieve Messages
+            String message = null;
+            if (request.getParameter("m") != null) {
+                message = request.getParameter("m");
+            }
+
             request.setAttribute("users", listOfUsers);
-            request.getRequestDispatcher("users.jsp").forward(request, response);
-            
+            request.getRequestDispatcher("users.jsp?msg=" + message).forward(request, response);
+
         }
     }
 

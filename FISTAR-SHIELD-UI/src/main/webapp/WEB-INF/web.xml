@@ -24,6 +24,10 @@
         <servlet-name>deassignIDMRole</servlet-name>
         <servlet-class>eu.ubitech.fistar.shield.servlet.deassignIDMRole</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>assignRole</servlet-name>
+        <servlet-class>eu.ubitech.fistar.shield.servlet.assignRole</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>createPseudonym</servlet-name>
         <url-pattern>/createPseudonym</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>deassignIDMRole</servlet-name>
         <url-pattern>/deassignIDMRole</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>assignRole</servlet-name>
+        <url-pattern>/assignRole</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

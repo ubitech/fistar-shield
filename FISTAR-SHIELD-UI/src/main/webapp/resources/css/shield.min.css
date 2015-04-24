@@ -37,3 +37,16 @@ html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:1
     justify-content: center;
     background:url('../img/spinner.gif') no-repeat center #fff;
 }
+
+
+.tooltip-inner {
+    max-width: 750px;
+    width: auto; 
+    background: #337ab7;
+    color: #ffffff;
+}
+
+.tooltip.in {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}

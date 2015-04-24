@@ -1,9 +1,7 @@
 package eu.ubitech.fistar.shield.servlet;
 
-import eu.ubitech.fistar.entities.User;
 import eu.ubitech.fistar.other.Util;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author smantzouratos
  */
-public class deassignIDMRole extends HttpServlet {
+public class assignRole extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -21,22 +19,34 @@ public class deassignIDMRole extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
-        String userID = request.getParameter("uID");
-        String idmRole = request.getParameter("role");
+        String username = request.getUserPrincipal().getName();
+        request.setAttribute("username", username);
 
-        User user = Util.getUserByID(Integer.valueOf(userID));
-        
-        boolean roleDeassigned = Util.deassignIDMRoleToUser(idmRole, user.getDN());
-        
-        String m = "ERROR";
-        
-        if (roleDeassigned) {
-            m = "DROK";
+        String userRole = Util.getUserRole(username);
+        request.setAttribute("userRole", userRole);
+
+        if (userRole.equalsIgnoreCase("user")) {
+
+            response.sendRedirect("createPseudonym");
+
+        } else if (userRole.equalsIgnoreCase("admin")) {
+            
+            String userDN = request.getParameter("userDN");
+            String idm = request.getParameter("idm");
+            
+            System.out.println("ID: " + userDN);
+            System.out.println("IDM: " + idm);   
+            
+            boolean roleAdded = Util.assignIDMRoleToUser(idm, userDN);
+            
+            String m = "ERROR";
+            
+            if (roleAdded) {
+                m = "ROK";
+            }
+            
+            response.sendRedirect("users?m=" + m);
         }
-        
-
-        response.sendRedirect("users?m=" + m);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

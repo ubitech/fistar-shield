@@ -35,7 +35,42 @@
                     <!-- Main Content -->
                     <div class="row">
 
+                        <%                            if (null != request.getParameter("msg")) {
+                                String msg = request.getParameter("msg");
+                                if (msg.equalsIgnoreCase("ROK")) {
+                        %>
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>Role assigned successfully!</strong>
+                        </div>
 
+                        <%
+                        } else if (msg.equalsIgnoreCase("DROK")) {
+                        %>                            
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>Role deassigned successfully!</strong>
+                        </div>
+
+                        <%
+                        } else if (msg.equalsIgnoreCase("NR")) {
+                        %>                            
+                        <div class="alert alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>All available roles are assigned to this user!</strong>
+                        </div>
+
+                        <%
+                        } else if (msg.equalsIgnoreCase("ERROR")) {
+                        %>                            
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>Problem Occured! Please try again!</strong>
+                        </div>
+
+                        <% }
+                            }
+                        %>
 
                         <div class="col-lg-12">
                             <div class="panel panel-default">
@@ -49,6 +84,7 @@
                                             <tr>
                                                 <th>Username</th>
                                                 <th>DN</th>
+                                                <th>Email</th>
                                                 <th>Roles</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -59,16 +95,17 @@
                                                 <tr>
                                                     <td>${user.username}</td>
                                                     <td>${user.DN}</td>
+                                                    <td>${user.email}</td>
                                                     <td>${user.idmRoles}</td>
                                                     <td>
-                                                        <center>
-                                                            <form class='form-inline' action='assignIDMRole' method='post' style='display:inline;'>
-                                                                <input type='hidden' value='${user.userID}' name='id' />
-                                                                <button class='btn btn-primary' type='submit'><i class='fa fa-plus'></i> </button>
-                                                            </form>
-                                                        </center>
-                                                   </td>
-                                                </tr>
+                                            <center>
+                                                <form class='form-inline' action='assignIDMRole' method='post' style='display:inline;'>
+                                                    <input type='hidden' value='${user.userID}' name='id' />
+                                                    <button class='btn btn-primary' type='submit'><i class='fa fa-plus'></i> </button>
+                                                </form>
+                                            </center>
+                                            </td>
+                                            </tr>
 
                                         </c:forEach>
                                         </tbody>
@@ -88,6 +125,21 @@
         <script type="text/javascript" src="resources/js/bootstrap_new.js"></script>
         <script type="text/javascript" src="resources/js/jquery-ui.min.js"</script>
         <script type="text/javascript" src="resources/js/moment.js"></script>
+        <script type="text/javascript" src="resources/js/bootstrap-tooltip.js"></script>
         <script type="text/javascript" src="resources/js/shield.min.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+
+                $("body").tooltip({
+                    selector: 'a[rel=tooltip]',
+                    html: true,
+                    placement: "right"
+
+                });
+
+            });
+        </script>
     </body>
 </html>

@@ -15,6 +15,7 @@ public class User {
     private String DN;
     private List<IDMRole> IDMUserRoles;
     private String idmRoles;
+    private String email;
 
     public int getUserID() {
         return userID;
@@ -70,6 +71,14 @@ public class User {
 
     public void setIDMUserRoles(List<IDMRole> IDMUserRoles) {
         this.IDMUserRoles = IDMUserRoles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public User() {

@@ -1,12 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package eu.ubitech.fistar.shield.servlet;
 
+import eu.ubitech.fistar.entities.IDMRole;
+import eu.ubitech.fistar.entities.User;
+import eu.ubitech.fistar.other.Util;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,29 +17,38 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class assignIDMRole extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet assignIDMRole</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet assignIDMRole at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        String username = request.getUserPrincipal().getName();
+        request.setAttribute("username", username);
+
+        String userRole = Util.getUserRole(username);
+        request.setAttribute("userRole", userRole);
+
+        if (userRole.equalsIgnoreCase("user")) {
+
+            response.sendRedirect("createPseudonym");
+
+        } else if (userRole.equalsIgnoreCase("admin")) {
+
+            String userID = request.getParameter("id");
+
+            User user = Util.getUserByID(Integer.valueOf(userID));
+            request.setAttribute("user", user);
+
+            List<IDMRole> idmRoles = Util.availableRoles(user.getIDMUserRoles());
+
+            if (idmRoles.size() > 0) {
+                request.setAttribute("idmRoles", idmRoles);
+                request.getRequestDispatcher("assignRoles.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("users?m=NR");
+            }
+
         }
     }
 

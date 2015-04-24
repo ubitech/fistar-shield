@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -138,7 +140,7 @@ public class Util {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            stm = ds.prepareStatement("SELECT a.id, a.username, b.firstName, b.lastName FROM User a, Pseudonym b, UserRole c WHERE a.username = b.username AND c.uid = a.id AND c.rolename = 'user';");
+            stm = ds.prepareStatement("SELECT a.id, a.username, b.firstName, b.lastName, b.email FROM User a, Pseudonym b, UserRole c WHERE a.username = b.username AND c.uid = a.id AND c.rolename = 'user';");
             rs = stm.executeQuery();
             while (rs.next()) {
                 user = new User();
@@ -146,6 +148,7 @@ public class Util {
                 user.setUsername(rs.getString("username"));
                 user.setFirstName(rs.getString("firstName"));
                 user.setLastName(rs.getString("lastName"));
+                user.setEmail(rs.getString("email"));
                 user.setDN("CN=" + user.getFirstName() + " " + user.getLastName());
                 List<IDMRole> idmRoles = getUserIDMRoles(user.getDN());
                 user.setIDMUserRoles(idmRoles);
@@ -153,7 +156,7 @@ public class Util {
                 String tempRoles = "";
                 if (null != idmRoles && idmRoles.size() > 0) {
                     for (IDMRole tempRole : idmRoles) {
-                        tempRoles += "<a href='deassignIDMRole?uID=" + user.getUserID() + "&role=" + tempRole.getRole() + "'>" + tempRole.getRole() + "</a>, ";
+                        tempRoles += "<a href='deassignIDMRole?uID=" + user.getUserID() + "&role=" + tempRole.getRole() + "' title='Click to remove this role!' rel='tooltip' data-trigger='hover' data-placement='right' data-html='true'>" + tempRole.getRole() + "</a>, ";
                     }
 
                     user.setIdmRoles(tempRoles.substring(0, tempRoles.length() - 2));
@@ -190,7 +193,7 @@ public class Util {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            stm = ds.prepareStatement("SELECT a.id, a.username, b.firstName, b.lastName FROM User a, Pseudonym b WHERE a.username = b.username AND a.id = ?;");
+            stm = ds.prepareStatement("SELECT a.id, a.username, b.firstName, b.lastName, b.email FROM User a, Pseudonym b WHERE a.username = b.username AND a.id = ?;");
             stm.setInt(1, userID);
             rs = stm.executeQuery();
             while (rs.next()) {
@@ -200,6 +203,20 @@ public class Util {
                 user.setFirstName(rs.getString("firstName"));
                 user.setLastName(rs.getString("lastName"));
                 user.setDN("CN=" + user.getFirstName() + " " + user.getLastName());
+                user.setEmail(rs.getString("email"));
+                user.setDN("CN=" + user.getFirstName() + " " + user.getLastName());
+                List<IDMRole> idmRoles = getUserIDMRoles(user.getDN());
+                user.setIDMUserRoles(idmRoles);
+                String tempRoles = "";
+                if (null != idmRoles && idmRoles.size() > 0) {
+                    for (IDMRole tempRole : idmRoles) {
+                        tempRoles += "<a href='deassignIDMRole?uID=" + user.getUserID() + "&role=" + tempRole.getRole() + "' title='Click to remove this role!' rel='tooltip' data-trigger='hover' data-placement='right' data-html='true'>" + tempRole.getRole() + "</a>, ";
+                    }
+
+                    user.setIdmRoles(tempRoles.substring(0, tempRoles.length() - 2));
+                } else {
+                    user.setIdmRoles(" - ");
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(DSHandler.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
@@ -257,9 +274,11 @@ public class Util {
         JSONArray rolesArray = jsonObj.getJSONArray("roles");
 
         for (int i = 0; i < rolesArray.length(); i++) {
-            role = new IDMRole();
-            role.setRole(rolesArray.get(i).toString());
-            roles.add(role);
+            if (rolesArray.get(i).toString().contains("fi")) {
+                role = new IDMRole();
+                role.setRole(rolesArray.get(i).toString());
+                roles.add(role);
+            }
         }
 
         return roles;
@@ -305,6 +324,35 @@ public class Util {
         idmRoleAssigned = idm.assignRoleToUser(idmRole, userDN);
 
         return idmRoleAssigned;
+
+    }
+
+    /**
+     *
+     * Sublists the IDM Roles of a specific user
+     *
+     * @param userIDMRoles
+     *
+     * @return A List of IDMRole object
+     *
+     */
+    public static List<IDMRole> availableRoles(List<IDMRole> userIDMRoles) {
+        List<IDMRole> newIDMRoles = new ArrayList<>();
+
+        List<IDMRole> idmRoles = getIDMRoles();
+
+        Map<String, IDMRole> mapOfUserRoles = new HashMap();
+        for (IDMRole tempUserRole : userIDMRoles) {
+            mapOfUserRoles.put(tempUserRole.getRole(), tempUserRole);
+        }
+        
+        for (IDMRole tempRole: idmRoles) {
+            if (!mapOfUserRoles.containsKey(tempRole.getRole())) {
+                 newIDMRoles.add(tempRole);
+            }
+        }
+
+        return newIDMRoles;
 
     }
 
