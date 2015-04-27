@@ -74,8 +74,8 @@ public class IDMHandler {
         params.add("_action", "create");
         JSONObject json = new JSONObject(user);
         ClientResponse clientRespone = restClientProvider.getRestService().path("managed").path("user").queryParams(params).entity(json.toString().replace("id", "_id")).header("Content-Type", "application/json; charset=utf-8").header("X-OpenIDM-Username", "openidm-admin").header("X-OpenIDM-Password", "openidm-admin").accept(MediaType.APPLICATION_JSON).post(ClientResponse.class);
-//        String JSONString = clientRespone.getEntity(String.class);
-//        System.out.println(JSONString);
+        String JSONString = clientRespone.getEntity(String.class);
+        System.out.println(JSONString);
         System.out.println(clientRespone.getStatusInfo().getStatusCode() + " - " + clientRespone.getStatusInfo().getReasonPhrase());
         return (clientRespone.getStatusInfo().getStatusCode() == 201);
     }
@@ -176,7 +176,7 @@ public class IDMHandler {
         jsonObject.put("roles", roles);
         String entityBody = jsonObject.toString();
         ClientResponse clientRespone = restClientProvider.getRestService().path("managed").path("user").path(DN).entity(entityBody).header("Content-Type", "application/json; charset=utf-8").header("X-OpenIDM-Username", "openidm-admin").header("X-OpenIDM-Password", "openidm-admin").header("If-Match", "*").accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
-        String JSONString = clientRespone.getEntity(String.class);
+//        String JSONString = clientRespone.getEntity(String.class);
 //        System.out.println(JSONString);
         System.out.println(clientRespone.getStatusInfo().getStatusCode() + " - " + clientRespone.getStatusInfo().getReasonPhrase());
         return (clientRespone.getStatusInfo().getStatusCode() == 200);
@@ -213,21 +213,20 @@ public class IDMHandler {
 
     public static void main(String[] args) {
         //Create new Identity Management Handler Instance
-        IDMHandler idm = new IDMHandler();
+        //IDMHandler idm = new IDMHandler();
         //Show all Users
-//        idm.getAllManagedUsersIDs();
+        // idm.getAllManagedUsersIDs();
 //        //Sample Method to add User
-        IDMUser dummyUser = new IDMUser("CN=Pat Barlow", "test", "Cr@t55jA@Rhc", "Pat", "Pat Barlow", "shiplots@somema1l.org");
-//           idm.createManagedUser(dummyUser);
+        // IDMUser dummyUser = new IDMUser("CN=Clayton Fleming", "test", "Cr@t55jA@Rhc", "Pat", "Pat Barlow", "shiplots@somema1l.org");
+        //    idm.createManagedUser(dummyUser);
         //Sample Method to get User
-        idm.getManagedUser(dummyUser.getId());
+        //idm.getManagedUser(dummyUser.getId());
         //Delete a User
-//         idm.deleteManagerUser(dummyUser.getId());
+        //idm.deleteManagerUser(dummyUser.getId());
         //Add a managed role
-        //idm.createManagedRole("fistar-admin");
         //idm.createManagedRole("fistar-user");
         //Get all managed roles
-//        idm.getAllManagedRoles();
+        //idm.getAllManagedRoles();
         //Delete a role
 //        //idm.deleteManagedRole("role1");
         // idm.assignRoleToUser("fistar-admin", "DN=tes1");

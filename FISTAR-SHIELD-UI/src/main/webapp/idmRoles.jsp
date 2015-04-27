@@ -11,7 +11,7 @@
         <title>SHIELD | User's Roles</title>
         <link rel="shortcut icon" href="resources/img/shield.png">
         <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css"/>
+        <link rel="stylesheet" href="resources/bootstrap-multiselect.css"/>
         <link href="resources/css/jquery-ui.min.css" rel="stylesheet">
         <link href="resources/css/shield.min.css" rel="stylesheet">
         <link href="resources/css/steps.css" rel="stylesheet">
@@ -90,7 +90,7 @@
         <script type="text/javascript" src="resources/js/jquery-ui.min.js"</script>
         <script type="text/javascript" src="resources/js/moment.js"></script>
         <script type="text/javascript" src="resources/js/shield.min.js"></script>
-        <script type="text/javascript" src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js"></script>
+        <script type="text/javascript" src="resources/bootstrap-multiselect.js"></script>
         <script>
             $(document).ready(function () {
                 $('#lstFruits').multiselect({

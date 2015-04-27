@@ -26,13 +26,9 @@ public class RESTClientProvider {
     private void init() {
         config.getProperties().put(ClientConfig.PROPERTY_FOLLOW_REDIRECTS, true);
         client = Client.create(config);
-        //service = client.resource("http://193.175.132.251:8089/rest/ejbca");
         service = client.resource(RestEndPointURL);
     }
 
-//    private URI getBaseURI() {
-//        return UriBuilder.fromUri(RestEndPointURL).build();
-//    }
 
     public WebResource getRestService() {
         return this.service;

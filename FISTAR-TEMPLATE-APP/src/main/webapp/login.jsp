@@ -1,4 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +13,7 @@
         <link rel="shortcut icon" href="resources/img/shield.png">
         <link rel="stylesheet" href="resources/css/bootstrap.min.css">
         <link rel="stylesheet" href="resources/css/shield.css">
-        <title>FISTAR APP | Login  Page</title>
+        <title>FISTAR APP | Main  Page</title>
     </head>
     <body style="text-align:center"> 
 
@@ -22,7 +24,8 @@
                 <h2 class="form-signin-heading"><center><img src="img/fistar.png" /><br>
                 FI-STAR Template Application</center></h2>
                 <br><br>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                User principal: <strong>${userDN}</strong><br>
+                Authorized Roles: <strong>${roles}</strong>
             </form>
 
 

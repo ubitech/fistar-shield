@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-    <artifactId>FistarSHIELD</artifactId>
-    <groupId>eu.ubitech.fistar</groupId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
+        <artifactId>FistarSHIELD</artifactId>
+        <groupId>eu.ubitech.fistar</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
     <groupId>eu.ubitech.fistar</groupId>
     <artifactId>FISTAR-TEMPLATE-APP</artifactId>
@@ -26,6 +26,13 @@
             <version>6.0</version>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>eu.ubitech.fistar</groupId>
+            <artifactId>FISTAR-IDM</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        
     </dependencies>
 
     <build>
@@ -75,6 +82,26 @@
                     </execution>
                 </executions>
             </plugin>
+            
+            <!-- After-build execution script -->
+            <plugin>
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <version>1.3.2</version>
+                <executions>
+                    <execution>
+                        <id>Deploying FISTAR-TEMPLATE-APP</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${basedir}/remoteDeploy.sh</executable>
+                        </configuration>
+                    </execution> 
+                </executions>
+            </plugin>
+            
         </plugins>
     </build>
 

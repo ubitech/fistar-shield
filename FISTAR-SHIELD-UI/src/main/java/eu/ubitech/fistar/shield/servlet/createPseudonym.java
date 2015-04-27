@@ -3,14 +3,12 @@ package eu.ubitech.fistar.shield.servlet;
 import eu.ubitech.fistar.pseudonym.Pseudonym;
 import eu.ubitech.fistar.pseudonym.PseudonymGenerator;
 import eu.ubitech.fistar.certificate.CertificateRequestor;
-import eu.ubitech.fistar.entities.User;
 import eu.ubitech.fistar.other.Util;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
@@ -34,8 +32,6 @@ public class createPseudonym extends HttpServlet {
 
             //Get next step
             String nextStep = (null == request.getParameter("nextStep") ? "step1" : request.getParameter("nextStep"));
-
-            System.out.println("Next step is: " + nextStep);
 
             switch (nextStep) {
 

@@ -5,6 +5,8 @@ import eu.ubitech.fistar.ejbcarestclient.services.RESTClientService;
 import eu.ubitech.fistar.other.Util;
 import eu.ubitech.fistar.pseudonym.Pseudonym;
 import eu.ubitech.fistar.database.DSHandler;
+import eu.ubitech.fistar.idm.IDMHandler;
+import eu.ubitech.fistar.idm.IDMUser;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +20,7 @@ import java.util.logging.Logger;
  */
 public final class CertificateRequestor {
 
+    private static final IDMHandler idm = new IDMHandler();
     private static CertificateRequestor certificateRequestor;
     private RESTClientService restClientService;
 
@@ -102,12 +105,16 @@ public final class CertificateRequestor {
     public FISTARCertificate generateCertificate(String username, String pseudonymCode) {
         FISTARCertificate fistarCertificate = new FISTARCertificate();
         Pseudonym pseudonym = getPseudonym(username);
+
         if (null == pseudonym) {
             Logger.getLogger(CertificateRequestor.class.getName()).severe("Could not find stored pseudonym for user: " + username);
         } else {
             if (!pseudonym.getPseudonymKey().endsWith(pseudonymCode)) {
                 Logger.getLogger(CertificateRequestor.class.getName()).severe("Invalid pseudonym code: " + pseudonymCode + " for user: " + username);
             } else {
+                //Create IDM User
+                IDMUser idmUser = new IDMUser("CN=" + pseudonym.getFirstName() + " " + pseudonym.getLastName(), pseudonym.getUsername() + Util.generateRandomString(6, Util.Mode.NUMERIC), pseudonymCode, pseudonym.getFirstName(), pseudonym.getFirstName() + " " + pseudonym.getLastName(), pseudonym.getEmail());
+                idm.createManagedUser(idmUser);
                 //Generate certificate
                 fistarCertificate.setCertificate(getRestClientService().createUserCertificate(username, pseudonymCode));
                 fistarCertificate.setCertificateName(pseudonym.getUsername() + ".P12");

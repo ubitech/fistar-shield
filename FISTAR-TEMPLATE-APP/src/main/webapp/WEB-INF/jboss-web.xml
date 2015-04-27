@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-web>
-  <context-root>/FISTAR-TEMPLATE-APP</context-root>
+    <context-root>/FISTAR-TEMPLATE-APP</context-root>
 </jboss-web>
