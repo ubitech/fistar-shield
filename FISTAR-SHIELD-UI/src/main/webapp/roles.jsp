@@ -187,9 +187,6 @@
                                 }
                            }
                            
-                           function editRoleFunction() {
-                                
-                           }
         </script>
     </body>
 </html>

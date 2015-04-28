@@ -32,7 +32,7 @@
     </ul>
     <div class="sidebar-footer">
         <div class="col-xs-12">
-            <a href="https://www.fi-star.eu/fi-star.html" target="_blank"> &copy; 2015 - FISTAR</a>
+            <a href="https://www.fi-star.eu/fi-star.html" target="_blank"> &copy; 2015 - FI-STAR</a>
         </div>
 
     </div>

@@ -35,7 +35,7 @@
             <div class="footer-inner">
                 <div class="poweredBy">
                     <center>
-                        &copy; 2015 - <a href="https://www.fi-star.eu/fi-star.html" target="_blank">FISTAR</a>
+                        &copy; 2015 - <a href="https://www.fi-star.eu/fi-star.html" target="_blank">FI-STAR</a>
                     </center>
                 </div>
             </div>
