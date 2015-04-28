@@ -13,6 +13,9 @@
         <li class="sidebar-list">
             <a href="users">Users<span class="menu-icon fa fa-users"></span></a>
         </li>
+        <li class="sidebar-list">
+            <a href="roles">Roles<span class="menu-icon fa fa-star-half-o"></span></a>
+        </li>
         <%
         } else {
         %>

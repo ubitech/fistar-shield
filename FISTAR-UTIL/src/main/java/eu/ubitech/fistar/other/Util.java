@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
@@ -274,7 +275,7 @@ public class Util {
         JSONArray rolesArray = jsonObj.getJSONArray("roles");
 
         for (int i = 0; i < rolesArray.length(); i++) {
-            if (rolesArray.get(i).toString().contains("fi")) {
+            if (!rolesArray.get(i).toString().contains("open")) {
                 role = new IDMRole();
                 role.setRole(rolesArray.get(i).toString());
                 roles.add(role);
@@ -329,6 +330,89 @@ public class Util {
 
     /**
      *
+     * Creates a new IDM Role to OpenIDM
+     *
+     * @param idmRole
+     *
+     * @return A Boolean object
+     *
+     */
+    public static boolean createNewRole(String idmRole) {
+        boolean roleAdded = false;
+
+        IDMHandler idm = new IDMHandler();
+        roleAdded = idm.createManagedRole(idmRole);
+
+        return roleAdded;
+
+    }
+
+    /**
+     *
+     * Creates a new user
+     *
+     * @param username
+     * @param password
+     *
+     * @return A String object
+     *
+     */
+    public static boolean createNewUser(String username, String password) {
+        boolean userCreated = false;
+        Connection ds = DSHandler.INSTANCE.getDatasource();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            stm = ds.prepareStatement("INSERT INTO User (username, password) VALUES (?,?);", Statement.RETURN_GENERATED_KEYS);
+            stm.setString(1, username);
+            stm.setString(2, createAlgorithm(password, "SHA"));
+            stm.executeUpdate();
+            int userID = 0;
+            rs = stm.getGeneratedKeys();
+            if (rs.next() && (userID = rs.getInt(1)) <= 0) {
+                Logger.getLogger(Util.class.getName()).log(Level.WARNING, "Could not retrieve primary key from table `User` for Record with name: {0}", username);
+                return userCreated;
+            }
+
+            stm = ds.prepareStatement("INSERT INTO UserRole (username, rolename, uid) VALUES (?,?,?);");
+            stm.setString(1, username);
+            stm.setString(2, "user");
+            stm.setInt(3, userID);
+            stm.executeUpdate();
+
+            userCreated = true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DSHandler.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return userCreated;
+        } finally {
+            DSHandler.INSTANCE.closeDBStreams(ds, stm, rs);
+        }
+        return userCreated;
+
+    }
+
+    /**
+     *
+     * Deletes an IDM Role to OpenIDM
+     *
+     * @param idmRole
+     *
+     * @return A Boolean object
+     *
+     */
+    public static boolean deleteRole(String idmRole) {
+        boolean roleDeleted = false;
+
+        IDMHandler idm = new IDMHandler();
+        roleDeleted = idm.deleteManagedRole(idmRole);
+
+        return roleDeleted;
+
+    }
+
+    /**
+     *
      * Sublists the IDM Roles of a specific user
      *
      * @param userIDMRoles
@@ -345,10 +429,10 @@ public class Util {
         for (IDMRole tempUserRole : userIDMRoles) {
             mapOfUserRoles.put(tempUserRole.getRole(), tempUserRole);
         }
-        
-        for (IDMRole tempRole: idmRoles) {
+
+        for (IDMRole tempRole : idmRoles) {
             if (!mapOfUserRoles.containsKey(tempRole.getRole())) {
-                 newIDMRoles.add(tempRole);
+                newIDMRoles.add(tempRole);
             }
         }
 
