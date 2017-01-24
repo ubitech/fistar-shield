@@ -1,10 +1,7 @@
 package eu.ubitech.fistar.shield.servlet;
 
-import eu.ubitech.fistar.certificate.CertificateRequestor;
-import eu.ubitech.fistar.certificate.FISTARCertificate;
+import eu.ubitech.fistar.other.Util;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,29 +9,30 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author ermis
+ * @author smantzouratos
  */
-public class fetchCertificate extends HttpServlet {
+public class addRole extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        String username = request.getUserPrincipal().getName();
+        String roleName = request.getParameter("roleName");
 
-        FISTARCertificate fistarCertificate = CertificateRequestor.getInstance().generateCertificate(username, request.getParameter("pseudonymCode"));
-        if (fistarCertificate.isCertificateValid()) {
-            response.setContentType("application/x-pkcs12");
-            response.setHeader("Content-disposition", "attachment; filename=" + fistarCertificate.getCertificateFileName());
-            InputStream in = fistarCertificate.getCertificate();
-            OutputStream out = response.getOutputStream();
-            byte[] buffer = new byte[4096];
-            int n;
-            while ((n = in.read(buffer)) > 0) {
-                out.write(buffer, 0, n);
+        String m = "ERROR";
+
+        if (null != roleName && roleName.length() > 0) {
+
+            boolean roleAdded = Util.createNewRole(roleName);
+
+            if (roleAdded) {
+                m = "NROK";
             }
-            in.close();
-            out.close();
+
         }
+
+        response.sendRedirect("roles?m=" + m);
 
     }
 

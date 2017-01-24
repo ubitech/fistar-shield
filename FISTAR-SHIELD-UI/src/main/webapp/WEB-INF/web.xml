@@ -28,6 +28,22 @@
         <servlet-name>assignRole</servlet-name>
         <servlet-class>eu.ubitech.fistar.shield.servlet.assignRole</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>roles</servlet-name>
+        <servlet-class>eu.ubitech.fistar.shield.servlet.roles</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addRole</servlet-name>
+        <servlet-class>eu.ubitech.fistar.shield.servlet.addRole</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deleteRole</servlet-name>
+        <servlet-class>eu.ubitech.fistar.shield.servlet.deleteRole</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>registerUser</servlet-name>
+        <servlet-class>eu.ubitech.fistar.shield.servlet.registerUser</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>createPseudonym</servlet-name>
         <url-pattern>/createPseudonym</url-pattern>
@@ -56,6 +72,22 @@
         <servlet-name>assignRole</servlet-name>
         <url-pattern>/assignRole</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>roles</servlet-name>
+        <url-pattern>/roles</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addRole</servlet-name>
+        <url-pattern>/addRole</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteRole</servlet-name>
+        <url-pattern>/deleteRole</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>registerUser</servlet-name>
+        <url-pattern>/registerUser</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -64,6 +96,7 @@
     <welcome-file-list>
         <welcome-file>createPseudonym</welcome-file>
     </welcome-file-list>
+    
     <security-constraint>
         <display-name>SHIELD Constraint</display-name>
         <web-resource-collection>
@@ -85,6 +118,24 @@
         <web-resource-collection>
             <web-resource-name>All Access</web-resource-name>
             <url-pattern>/resources/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>All Access</web-resource-name>
+            <url-pattern>/register.jsp</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>All Access</web-resource-name>
+            <url-pattern>/registerUser</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>

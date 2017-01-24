@@ -1,5 +1,4 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,19 +16,47 @@
 
         <div class="container">
 
-            <form class="form-signin" method="POST" action='<%= response.encodeURL("j_security_check")%>'>
+            <form class="form-signin" method="POST" action='registerUser'>
                 <h2 class="form-signin-heading"><center><img src="resources/img/shield.png" /></center></h2>
-                <br /><br />
-                <label for="inputText" class="sr-only">Username></label>
-                <input type="text" name="j_username" class="form-control" placeholder="Username" required autofocus>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" name="j_password" class="form-control" placeholder="Password" required>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-            </form>
 
+                <%                            if (null != request.getParameter("msg")) {
+                        String msg = request.getParameter("msg");
+                        if (msg.equalsIgnoreCase("NUOK")) {
+                %>
+                <br /><br />
+                <div class="error"><center>User created successfully! Please log in!</center></div>
+                <br /><br />
+
+                <%
+                } else if (msg.equalsIgnoreCase("ERROR")) {
+                %>                            
+               <br /><br />
+                <div class="error"><center>Problem occured. Please try again!</center></div>
+                <br /><br />
+
+                <%
+                } else {
+
+                %>
+
+                <br /><br />
+                <%                        }
+                    }
+                %>
+
+                
+
+                <label for="inputText" class="sr-only">Username></label>
+                <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                <label for="inputRepeatPassword" class="sr-only">Repeat Password</label>
+                <input type="password" name="repeat_password" class="form-control" placeholder="Repeat Password" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            </form>
             <div class="col-md-12">
                 <center>  
-                    <a class="btn btn-link" href="register.jsp">Register</a>
+                    <a class="btn btn-link" href="createPseudonym">Login</a>
                 </center>
             </div>
 

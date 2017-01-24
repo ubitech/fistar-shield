@@ -13,6 +13,9 @@
         <li class="sidebar-list">
             <a href="users">Users<span class="menu-icon fa fa-users"></span></a>
         </li>
+        <li class="sidebar-list">
+            <a href="roles">Roles<span class="menu-icon fa fa-star-half-o"></span></a>
+        </li>
         <%
         } else {
         %>
@@ -29,7 +32,7 @@
     </ul>
     <div class="sidebar-footer">
         <div class="col-xs-12">
-            <a href="https://www.fi-star.eu/fi-star.html" target="_blank"> &copy; 2015 - FISTAR</a>
+            <a href="https://www.fi-star.eu/fi-star.html" target="_blank"> &copy; 2015 - FI-STAR</a>
         </div>
 
     </div>

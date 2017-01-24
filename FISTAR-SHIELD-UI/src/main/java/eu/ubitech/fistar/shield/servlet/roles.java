@@ -1,10 +1,11 @@
 package eu.ubitech.fistar.shield.servlet;
 
-import eu.ubitech.fistar.certificate.CertificateRequestor;
-import eu.ubitech.fistar.certificate.FISTARCertificate;
+import eu.ubitech.fistar.entities.IDMRole;
+import eu.ubitech.fistar.entities.User;
+import eu.ubitech.fistar.other.Util;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,30 +13,40 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author ermis
+ * @author smantzouratos
  */
-public class fetchCertificate extends HttpServlet {
+public class roles extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
+
         String username = request.getUserPrincipal().getName();
+        request.setAttribute("username", username);
 
-        FISTARCertificate fistarCertificate = CertificateRequestor.getInstance().generateCertificate(username, request.getParameter("pseudonymCode"));
-        if (fistarCertificate.isCertificateValid()) {
-            response.setContentType("application/x-pkcs12");
-            response.setHeader("Content-disposition", "attachment; filename=" + fistarCertificate.getCertificateFileName());
-            InputStream in = fistarCertificate.getCertificate();
-            OutputStream out = response.getOutputStream();
-            byte[] buffer = new byte[4096];
-            int n;
-            while ((n = in.read(buffer)) > 0) {
-                out.write(buffer, 0, n);
+        String userRole = Util.getUserRole(username);
+        request.setAttribute("userRole", userRole);
+
+        if (userRole.equalsIgnoreCase("user")) {
+
+            response.sendRedirect("createPseudonym");
+
+        } else if (userRole.equalsIgnoreCase("admin")) {
+
+            List<IDMRole> listOfRoles = Util.getIDMRoles();
+
+            // Retrieve Messages
+            String message = null;
+            if (request.getParameter("m") != null) {
+                message = request.getParameter("m");
             }
-            in.close();
-            out.close();
-        }
 
+            request.setAttribute("roles", listOfRoles);
+            request.getRequestDispatcher("roles.jsp?msg=" + message).forward(request, response);
+
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

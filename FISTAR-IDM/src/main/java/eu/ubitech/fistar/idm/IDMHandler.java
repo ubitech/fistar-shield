@@ -113,6 +113,7 @@ public class IDMHandler {
     /**
      * Get all roles of IDM
      *
+     * @param roleName
      * @return
      */
     public boolean createManagedRole(String roleName) {
@@ -151,12 +152,12 @@ public class IDMHandler {
         return (clientRespone.getStatusInfo().getStatusCode() == 201);
     }
 
-    public void deleteManagedRole(String roleName) {
+    public boolean deleteManagedRole(String roleName) {
         ClientResponse clientRespone = restClientProvider.getRestService().path("managed").path("role").path(roleName).header("X-OpenIDM-Username", "openidm-admin").header("X-OpenIDM-Password", "openidm-admin").accept(MediaType.APPLICATION_JSON).delete(ClientResponse.class);
         String JSONString = clientRespone.getEntity(String.class);
         System.out.println(JSONString);
-        //  JSONObject json = new JSONObject(JSONString);
-        //System.out.println(json.get("result").toString());
+        System.out.println(clientRespone.getStatusInfo().getStatusCode() + " - " + clientRespone.getStatusInfo().getReasonPhrase());
+        return (clientRespone.getStatusInfo().getStatusCode() == 200);
     }
 
     /**
@@ -226,7 +227,7 @@ public class IDMHandler {
         //Add a managed role
         //idm.createManagedRole("fistar-user");
         //Get all managed roles
-        //idm.getAllManagedRoles();
+        idm.getAllManagedRoles();
         //Delete a role
 //        //idm.deleteManagedRole("role1");
         // idm.assignRoleToUser("fistar-admin", "DN=tes1");
