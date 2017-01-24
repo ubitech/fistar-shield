@@ -55,6 +55,15 @@ public final class PseudonymGenerator {
         return email;
     }
 
+    private String getRandomAddress() {
+        String address = "";
+        int randomNum = this.randomNumberGenerator.nextInt(MAX_RANDOM_NUMBER);
+        for (int i = 0; i <= randomNum; i++) {
+            address = this.dataFactory.getAddress();
+        }
+        return address;
+    }
+
     //Public API
     public static synchronized PseudonymGenerator getInstance() {
         if (null == pseudonymGenerator) {
@@ -73,5 +82,18 @@ public final class PseudonymGenerator {
         pseudonym = new Pseudonym(getRandomFirstName(), getRandomLastName(), getRandomEmail(), "");
         return pseudonym;
     }
-    
+
+    public static void main(String[] args) {
+
+        PseudonymGenerator ps = PseudonymGenerator.getInstance();
+
+        String randNum;
+
+        for (int i = 0; i < 1000; i++) {
+            randNum = String.valueOf( ps.randomNumberGenerator.nextInt(9)) + String.valueOf( ps.randomNumberGenerator.nextInt(9))+String.valueOf( ps.randomNumberGenerator.nextInt(9))+String.valueOf( ps.randomNumberGenerator.nextInt(9))+String.valueOf( ps.randomNumberGenerator.nextInt(9))+String.valueOf( ps.randomNumberGenerator.nextInt(9))+String.valueOf( ps.randomNumberGenerator.nextInt(9)) ;
+            System.out.println("\"" + String.valueOf((i+1)) +"\"" + ","+ "\""+ps.getRandomFirstName()+"\""+  ","+"\""+  ps.getRandomLastName()+"\""+ "," + "\""+ps.getRandomAddress()+ "\""+ "," + "\""+"+44" + randNum + "\""+"," +"\""+ ps.getRandomEmail()+"\"");
+        }
+
+    }
+
 }

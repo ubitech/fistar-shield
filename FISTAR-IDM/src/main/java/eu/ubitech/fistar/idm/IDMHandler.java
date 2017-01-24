@@ -213,7 +213,7 @@ public class IDMHandler {
 
     public static void main(String[] args) {
         //Create new Identity Management Handler Instance
-        //IDMHandler idm = new IDMHandler();
+        IDMHandler idm = new IDMHandler();
         //Show all Users
         // idm.getAllManagedUsersIDs();
 //        //Sample Method to add User
